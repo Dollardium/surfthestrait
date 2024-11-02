@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan de Fuca</title>
+    <style>
+        body {
+            background-color: #001122;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .time-banner {
+            background-color: #112233;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+        .time-item {
+            text-align: center;
+        }
+        .sunrise-sunset-banner {
+            padding: 10px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .sun-icon, .sunset-icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .current-weather-banner {
+            background-color: #223344;
+            padding: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .buoy-image {
+            margin: 20px 0;
+            max-width: 90%;
+            height: auto;
+        }
+        .weather-outlook-header {
+            background-color: #334455;
+            padding: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        .iframe-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .iframe-container {
+            width: 45%;
+            text-align: center;
+        }
+        .iframe-banner {
+            background-color: #223344;
+            padding: 5px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+        }
+        .tide-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .tide-container {
+            width: 45%;
+            background-color: #112233;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .tide-table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #112233;
+            border-radius: 8px;
+        }
+        .tide-table th, .tide-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #334455;
+        }
+        .tide-table th {
+            background-color: #223344;
+        }
+        .tide-table .day {
+            font-weight: bold;
+        }
+        .tide-table .tide-u div, .tide-table .tide-d div {
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .tide-table .tide-u i {
+            color: #4CAF50;
+        }
+        .tide-table .tide-d i {
+            color: #f44336;
+        }
+        .tide-table .sun {
+            font-size: 0.9em;
+        }
+        .tide-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .tide-label {
+            padding: 2px 12px;
+            background-color: #223344;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .tide-value {
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        .tide-time {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .tide-heights {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            font-size: 0.9em;
+        }
+        .tide-heights span {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <!-- Title Section -->
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; position: relative; background-color: #022841;">
+        <div style="display: flex; align-items: center; gap: 15px; margin-left: 1%;">
+            <img src="c:\Users\LEGERMAT\Downloads\b549f6f9-6e79-457d-bb25-eebfe78f05bf.png
+            " alt="Canadian Coast Guard Logo" style="height: 100px;">
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <h1 style="font-size: 2.5em; margin: 0;">Surf the Strait</h1>
+                <em style="font-size: 1.3em; color: #FFFFFF;">"Might as well check it out"</em>
+            </div>
+        </div>
+        <span id="time-victoria" style="font-size: 2em; color: #FFFFFF; font-weight: bold; margin-right: 2.5%;"></span>
+    </div>
+
+    <!-- Sunrise, Sunset, and Moon Phase Banner -->
+    <div class="sunrise-sunset-banner" style="margin: 20px 0; padding: 15px 0;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 100px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="4" fill="#FFB800"/>
+                    <path d="M12 2V6" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 18V22" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M4 12H2" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M22 12H20" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M19.8 4.2L17 7" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7 17L4.2 19.8" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span id="sunrise" style="font-size: 1.2em;"></span>
+            </div>
+            <span style="font-size: 1.4em; font-weight: bold; color: #FFFFFF;">|</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 18V22" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M4 12H2" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M22 12H20" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M19.8 19.8L17 17" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M4.2 19.8L7 17" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span id="sunset" style="font-size: 1.2em;"></span>
+            </div>
+            <span style="font-size: 1.4em; font-weight: bold; color: #FFFFFF;">|</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#E1E1E1" stroke-width="2"/>
+                    <path id="moon-phase" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" fill="#E1E1E1"/>
+                </svg>
+                <span id="moon-phase-text" style="font-size: 1.2em;"></span>
+            </div>
+        </div>
+    </div>
+    <!-- Current Weather Banner -->
+    <div class="current-weather-banner" style="max-width: 95%; margin: 0 auto; border-radius: 8px;">
+        Current Conditions
+        <div style="font-size: 0.7em; margin-top: 5px;">
+            <span id="weather-timestamp"></span>
+        </div>
+    </div>
+    <!-- Buoy Image -->
+    <div class="buoy-image" style="display: flex; justify-content: center; align-items: center; margin: 20px auto; max-width: 96.5%;">
+        <img src="https://www.ndbc.noaa.gov/buoycam.php?station=46087" alt="Current Buoy Image" style="max-width: 100%; height: auto; width: 2000px;">
+    </div>
+    <!-- Buoy Data Cards -->
+    <div style="display: flex; justify-content: space-around; margin: 20px auto; max-width: 96.5%; gap: 20px;">
+        <!-- Wave Card -->
+        <div style="background-color: #112233; padding: 25px; border-radius: 8px; flex: 1; text-align: center;">
+            <h3 style="margin: 0 0 12px 0;">Waves</h3>
+            <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 40px;">
+                <div>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block;">J-Buoy</span>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 18px;">
+                        <div id="wave-height" style="font-size: 1.7em; font-weight: bold;">-- ft</div>
+                        <div id="wave-direction" style="font-size: 1.7em; font-weight: bold;">--</div>
+                        <div id="wave-period" style="font-size: 1.7em; font-weight: bold;">-- s</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Temperature Card -->
+        <div style="background-color: #112233; padding: 25px; border-radius: 8px; flex: 1; text-align: center;">
+            <h3 style="margin: 0 0 12px 0;">Temperature</h3>
+            <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 40px;">
+                <div>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block;">Water</span>
+                    <div id="water-temp" style="font-size: 1.7em; font-weight: bold;">--°C</div>
+                </div>
+                <div>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block;">Air</span>
+                    <div id="air-temp" style="font-size: 1.7em; font-weight: bold;">--°C</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wind Card -->
+        <div style="background-color: #112233; padding: 25px; border-radius: 8px; flex: 1; text-align: center;">
+            <h3 style="margin: 0 0 12px 0;">Wind</h3>
+            <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 40px;">
+                <div>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block;">Neah Bay</span>
+                    <div>
+                        <span id="wind-direction" style="font-size: 1.7em; font-weight: bold;"> --</span>
+                        <span id="wind-speed" style="font-size: 1.7em; font-weight: bold;">-- kts</span>
+                    </div>
+                </div>
+                <div>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block;">Sheringham</span>
+                    <div>
+                        <span id="sheringham-wind" style="font-size: 1.7em; font-weight: bold;">-- kts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tide Card -->
+        <div style="background-color: #112233; padding: 25px; border-radius: 8px; flex: 1; text-align: center; position: relative;">
+            <h3 style="margin: 0 0 12px 0;">Tides</h3>
+            <button id="expandTides" style="position: absolute; top: 12px; right: 12px; background: none; border: none; color: white; cursor: pointer; font-size: 28px; font-weight: bold;">
+                +
+            </button>
+            <!-- Today's tides -->
+            <div id="tides" style="font-size: 1.4em; display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+                <div class="tide-group">
+                    <span class="tide-label">High</span>
+                    <div id="tide1" class="tide-value" style="color: white;">--</div>
+                    <div id="tide3" class="tide-value" style="color: white;">--</div>
+                </div>
+                <div class="tide-group">
+                    <span class="tide-label">Low</span>
+                    <div id="tide2" class="tide-value" style="color: white;">--</div>
+                    <div id="tide4" class="tide-value" style="color: white;">--</div>
+                </div>
+            </div>
+            <!-- Expanded weekly tides (hidden by default) -->
+            <div id="weeklyTides" style="display: none; margin-top: 18px; max-height: 350px; overflow-y: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 12px;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 10px; border-bottom: 1px solid #334455;">Day</th>
+                            <th style="padding: 10px; border-bottom: 1px solid #334455;">Time</th>
+                            <th style="padding: 10px; border-bottom: 1px solid #334455;">Height</th>
+                        </tr>
+                    </thead>
+                    <tbody id="weeklyTidesBody">
+                        <!-- Weekly tide data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Surf Forecast Table -->
+   
+    <!-- Sombrio Beach Tide Table -->
+    <div class="table-responsive" style="margin: 20px auto; max-width: 90%; display: none;">
+        <table class="tide-table">
+            <caption style="color: white; font-size: 1.5em; margin-bottom: 10px; background-color: #223344; padding: 10px;">Sombrio Tides</caption>
+            <thead>
+                <tr>
+                    <th rowspan="2">Day</th>
+                    <th colspan="4">Tide Heights</th>
+                    <th colspan="2" rowspan="2">Sun</th>
+                </tr>
+                <tr>
+                    <th>1st Tide</th>
+                    <th>2nd Tide</th>
+                    <th>3rd Tide</th>
+                    <th>4th Tide</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="day">Tue 29</td>
+                    <td class="tide-u">12:28 am<div><i>▲</i> 2.4 m</div></td>
+                    <td class="tide-d">6:26 am<div><i>▼</i> 1.1 m</div></td>
+                    <td class="tide-u">12:41 pm<div><i>▲</i> 2.6 m</div></td>
+                    <td class="tide-d">7:05 pm<div><i>▼</i> 0.9 m</div></td>
+                    <td class="sun"><i>▲</i> 8:00 am</td>
+                    <td class="sun"><i>▼</i> 6:01 pm</td>
+                </tr>
+                <tr>
+                    <td class="day">Wed 30</td>
+                    <td class="tide-u">1:09 am<div><i>▲</i> 2.4 m</div></td>
+                    <td class="tide-d">6:58 am<div><i>▼</i> 1.1 m</div></td>
+                    <td class="tide-u">1:06 pm<div><i>▲</i> 2.7 m</div></td>
+                    <td class="tide-d">7:36 pm<div><i>▼</i> 0.8 m</div></td>
+                    <td class="sun"><i>▲</i> 8:01 am</td>
+                    <td class="sun"><i>▼</i> 6:00 pm</td>
+                </tr>
+                <tr>
+                    <td class="day">Thu 31</td>
+                    <td class="tide-u">1:47 am<div><i>▲</i> 2.5 m</div></td>
+                    <td class="tide-d">7:28 am<div><i>▼</i> 1.2 m</div></td>
+                    <td class="tide-u">1:31 pm<div><i>▲</i> 2.8 m</div></td>
+                    <td class="tide-d">8:07 pm<div><i>▼</i> 0.7 m</div></td>
+                    <td class="sun"><i>▲</i> 8:03 am</td>
+                    <td class="sun"><i>▼</i> 5:58 pm</td>
+                </tr>
+                <tr>
+                    <td class="day">Fri 1</td>
+                    <td class="tide-u">2:23 am<div><i>▲</i> 2.5 m</div></td>
+                    <td class="tide-d">7:57 am<div><i>▼</i> 1.2 m</div></td>
+                    <td class="tide-u">1:56 pm<div><i>▲</i> 2.8 m</div></td>
+                    <td class="tide-d">8:37 pm<div><i>▼</i> 0.6 m</div></td>
+                    <td class="sun"><i>▲</i> 8:04 am</td>
+                    <td class="sun"><i>▼</i> 5:57 pm</td>
+                </tr>
+                <tr>
+                    <td class="day">Sat 2</td>
+                    <td class="tide-u">2:58 am<div><i>▲</i> 2.5 m</div></td>
+                    <td class="tide-d">8:26 am<div><i>▼</i> 1.3 m</div></td>
+                    <td class="tide-u">2:22 pm<div><i>▲</i> 2.8 m</div></td>
+                    <td class="tide-d">9:09 pm<div><i>▼</i> 0.6 m</div></td>
+                    <td class="sun"><i>▲</i> 8:06 am</td>
+                    <td class="sun"><i>▼</i> 5:55 pm</td>
+                </tr>
+                <tr>
+                    <td class="day">Sun 3</td>
+                    <td class="tide-u">3:34 am<div><i>▲</i> 2.4 m</div></td>
+                    <td class="tide-d">8:55 am<div><i>▼</i> 1.4 m</div></td>
+                    <td class="tide-u">2:50 pm<div><i>▲</i> 2.8 m</div></td>
+                    <td class="tide-d">9:42 pm<div><i>▼</i> 0.6 m</div></td>
+                    <td class="sun"><i>▲</i> 8:07 am</td>
+                    <td class="sun"><i>▼</i> 5:54 pm</td>
+                </tr>
+                <tr>
+                    <td class="day">Mon 4</td>
+                    <td class="tide-u">4:12 am<div><i>▲</i> 2.4 m</div></td>
+                    <td class="tide-d">9:25 am<div><i>▼</i> 1.5 m</div></td>
+                    <td class="tide-u">3:19 pm<div><i>▲</i> 2.8 m</div></td>
+                    <td class="tide-d">10:18 pm<div><i>▼</i> 0.6 m</div></td>
+                    <td class="sun"><i>▲</i> 7:09 am</td>
+                    <td class="sun"><i>▼</i> 4:52 pm</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Weather Outlook Header -->
+    <div class="current-weather-banner" style="width: 95%; margin: 0 auto; border-radius: 8px;">
+        Surf Outlook
+        <div style="font-size: 0.7em; margin-top: 5px;">
+        </div>
+    </div>
+
+    <!-- Windy Maps Stacked -->
+    <div class="iframe-grid" style="flex-direction: column; width: 90%; margin: 20px auto;">
+        <div class="iframe-container" style="width: 100%; margin-bottom: 30px;">
+            <div class="iframe-banner">Wave/Swell</div>
+            <iframe style="height: 500px;" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=kt&zoom=6&overlay=waves&product=ecmwf&level=surface&lat=48.497744&lon=-124.303055&detailLat=48.497744&detailLon=-124.303055&marker=true&pressure=true&message=true"></iframe>
+        </div>
+        <div class="iframe-container" style="width: 100%; margin-bottom: 30px;">
+            <div class="iframe-banner">Wind</div>
+            <iframe style="height: 500px;" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=kt&zoom=6&overlay=wind&product=ecmwf&level=surface&lat=48.497744&lon=-124.303055&detailLat=48.497744&detailLon=-124.303055&marker=true&pressure=true&message=true"></iframe>
+        </div>
+        <div class="iframe-container" style="width: 100%; margin-bottom: 30px;">
+            <div class="iframe-banner">Precipitation</div>
+            <iframe style="height: 500px;" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=kt&zoom=6&overlay=rain&product=ecmwf&level=surface&lat=48.497744&lon=-124.303055&detailLat=48.497744&detailLon=-124.303055&marker=true&pressure=true&message=true"></iframe>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer style="background-color: #333; color: white; padding: 20px 0; text-align: center; margin-top: 40px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <p style="margin: 5px 0;">© 2024 Victoria Marine Weather Dashboard</p>
+            <p style="margin: 5px 0; font-size: 0.9em;">Data sources: Environment Canada, Windy.com, NOAA</p>
+            <p style="margin: 5px 0; font-size: 0.8em;">For recreational use only. Not to be used for navigational purposes.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Section -->
+    <script>
+        // Time Display for Victoria
+        function updateTimes() {
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: false // Set 24h format
+            };
+            options.timeZone = 'America/Vancouver';
+            const timeElement = document.getElementById('time-victoria');
+            const currentTime = new Intl.DateTimeFormat('en-CA', options).format(new Date());
+            if (timeElement) {
+                timeElement.textContent = currentTime;
+                console.log('Time updated:', currentTime);
+            } else {
+                console.error('Time element not found');
+            }
+        }
+        // Call immediately
+        updateTimes();
+        // Update every second
+        setInterval(updateTimes, 1000);
+
+        // Fetch Sunrise and Sunset Times
+        async function fetchSunriseSunset() {
+            const response = await fetch('https://api.sunrise-sunset.org/json?lat=48.4284&lng=-123.3656&formatted=0');
+            const data = await response.json();
+            
+            const sunrise = new Date(data.results.sunrise).toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Vancouver' });
+            const sunset = new Date(data.results.sunset).toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Vancouver' });
+
+            document.getElementById('sunrise').textContent = sunrise;
+            document.getElementById('sunset').textContent = sunset;
+        }
+        fetchSunriseSunset();
+
+        // Fetch Sheringham Point Wind Data
+        async function fetchSheringhamWind() {
+            try {
+                console.log('Starting fetch...');
+                // Try different CORS proxies
+                const corsProxies = [
+                    'https://api.allorigins.win/raw?url=',
+                    'https://api.codetabs.com/v1/proxy?quest=',
+                    'https://cors-anywhere.herokuapp.com/'
+                ];
+                
+                const url = 'https://weather.gc.ca/marine/weatherConditions-currentConditions_e.html?mapID=02&siteID=07010&stationID=WSP';
+                let response;
+                let text;
+                
+                // Try each proxy until one works
+                for (const proxy of corsProxies) {
+                    try {
+                        console.log(`Trying proxy: ${proxy}`);
+                        response = await fetch(proxy + encodeURIComponent(url));
+                        if (response.ok) {
+                            text = await response.text();
+                            console.log('Successfully fetched data');
+                            break;
+                        }
+                    } catch (e) {
+                        console.log(`Proxy ${proxy} failed:`, e);
+                        continue;
+                    }
+                }
+                
+                if (!text) {
+                    throw new Error('All proxies failed');
+                }
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                
+                // Try multiple methods to find the data
+                const methods = {
+                    xpath: () => {
+                        const xpath = "/html/body/main/div[4]/table/tbody/tr[1]/td[1]";
+                        const result = document.evaluate(xpath, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+                        return result.singleNodeValue?.textContent;
+                    },
+                    cssSelector: () => {
+                        return doc.querySelector('main div:nth-child(4) table tr:first-child td:first-child')?.textContent;
+                    },
+                    tableSearch: () => {
+                        const tables = doc.querySelectorAll('table');
+                        console.log('Found tables:', tables.length);
+                        return tables[0]?.querySelector('tr:first-child td:first-child')?.textContent;
+                    }
+                };
+
+                let windData;
+                for (const [method, finder] of Object.entries(methods)) {
+                    try {
+                        windData = finder();
+                        if (windData) {
+                            console.log(`Found data using ${method}:`, windData);
+                            break;
+                        }
+                    } catch (e) {
+                        console.log(`${method} failed:`, e);
+                    }
+                }
+
+                if (windData) {
+                    const sheringhamElement = document.getElementById('sheringham-wind');
+                    // Extract just the number from the wind data using regex
+                    const windSpeed = windData.match(/\d+/);  // This will match one or more digits
+                    sheringhamElement.textContent = windData.trim() + ' kts';
+                    // Pass the parsed wind speed to updateWindColor
+                    updateWindColor(sheringhamElement, windSpeed ? parseFloat(windSpeed[0]) : null);
+                } else {
+                    throw new Error('No wind data found using any method');
+                }
+            } catch (error) {
+                console.error('Detailed error:', error);
+                console.error('Error stack:', error.stack);
+                document.getElementById('sheringham-wind').textContent = 'Data unavailable';
+            }
+        }
+        fetchSheringhamWind();
+        setInterval(fetchSheringhamWind, 300000); // Update every 5 minutes
+
+        // Fetch Buoy Data
+        async function fetchBuoyData() {
+            try {
+                console.log('Fetching buoy data...');
+                const corsProxy = 'https://corsproxy.io/?';
+                const buoyUrl = encodeURIComponent('https://www.ndbc.noaa.gov/data/realtime2/46087.txt');
+                const response = await fetch(corsProxy + buoyUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                console.log('Received data:', text.substring(0, 200));
+                
+                const lines = text.split('\n');
+                if (lines.length < 3) {
+                    throw new Error(`Invalid data format. Got ${lines.length} lines, expected at least 3`);
+                }
+
+                // Get headers and latest data
+                const headers = lines[0].trim().split(/\s+/);
+                const latestData = lines[2].trim().split(/\s+/);
+                
+                console.log('Headers:', headers);
+                console.log('Latest data:', latestData);
+
+                // Create a data object
+                const data = {};
+                headers.forEach((header, index) => {
+                    data[header] = latestData[index];
+                });
+
+                console.log('Parsed data:', data);
+
+                // Update timestamp
+                const year = parseInt(data['#YY']);
+                const month = parseInt(data['MM']) - 1;
+                const day = parseInt(data['DD']);
+                const hour = parseInt(data['hh']);
+                const minute = parseInt(data['mm']);
+
+                // Fix: Don't add 2000 if the year is already four digits
+                const fullYear = year > 100 ? year : 2000 + year;
+                const date = new Date(Date.UTC(fullYear, month, day, hour, minute));
+                const timeString = date.toLocaleString('en-US', { 
+                    timeZone: 'America/Los_Angeles',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                });
+
+                document.getElementById('weather-timestamp').textContent = timeString;
+
+                // Update all measurements
+                // Wave data
+                if (data['WVHT'] && data['WVHT'] !== 'MM') {
+                    const waveHeightFt = (parseFloat(data['WVHT']) * 3.28084).toFixed(1);
+                    document.getElementById('wave-height').textContent = `${waveHeightFt} ft`;
+                }
+
+                if (data['MWD'] && data['MWD'] !== 'MM') {
+                    document.getElementById('wave-direction').textContent = degreesToCardinal(data['MWD']);
+                }
+
+                if (data['DPD'] && data['DPD'] !== 'MM') {
+                    document.getElementById('wave-period').textContent = `${data['DPD']} s`;
+                }
+
+                // Temperature data
+                if (data['WTMP'] && data['WTMP'] !== 'MM') {
+                    document.getElementById('water-temp').textContent = `${data['WTMP']}°C`;
+                }
+
+                if (data['ATMP'] && data['ATMP'] !== 'MM') {
+                    document.getElementById('air-temp').textContent = `${data['ATMP']}°C`;
+                }
+
+                // Wind data
+                if (data['WSPD'] && data['WSPD'] !== 'MM') {
+                    const windSpeedKts = (parseFloat(data['WSPD']) * 1.944).toFixed(1);
+                    const windSpeedElement = document.getElementById('wind-speed');
+                    windSpeedElement.textContent = `${windSpeedKts} kts`;
+                    updateWindColor(windSpeedElement, parseFloat(windSpeedKts));
+                }
+
+                if (data['WDIR'] && data['WDIR'] !== 'MM') {
+                    const windDirectionElement = document.getElementById('wind-direction');
+                    const direction = degreesToCardinal(data['WDIR']);
+                    windDirectionElement.textContent = direction;
+                    // Use the wind speed for coloring if available
+                    const windSpeed = data['WSPD'] !== 'MM' ? parseFloat(data['WSPD']) * 1.944 : null;
+                    updateWindColor(windDirectionElement, windSpeed);
+                }
+
+            } catch (error) {
+                console.error("Failed to fetch buoy data:", error);
+                console.error("Error stack:", error.stack);
+                document.getElementById('weather-timestamp').textContent = 'Error loading data';
+                
+                // Set default values for all fields
+                const defaultFields = ['wave-height', 'wave-direction', 'wave-period', 
+                                     'water-temp', 'air-temp', 'wind-speed', 'wind-direction'];
+                defaultFields.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = '--';
+                    }
+                });
+            }
+        }
+        fetchBuoyData();
+        // Refresh buoy data every 5 minutes
+        setInterval(fetchBuoyData, 300000);
+
+        function updateWindColor(element, speed) {
+            if (speed === '--' || isNaN(speed)) {
+                element.style.color = '#FFFFFF'; // Default white for no data
+            } else if (speed <= 5) {
+                element.style.color = '#00ff00'; // Green
+            } else if (speed <= 10) {
+                element.style.color = '#ffff00'; // Yellow
+            } else {
+                element.style.color = '#ff0000'; // Red
+            }
+        }
+
+        // Function to convert meters to feet
+        function metersToFeet(meters) {
+            return meters * 3.28084;
+        }
+
+        // Function to get today's tides from the tide table
+        function getTodaysTides() {
+            const today = new Date();
+            const date = today.getDate();
+            
+            // Find today's row in the tide table
+            const tideRows = document.querySelectorAll('.tide-table tbody tr');
+            let todayRow;
+            
+            for (const row of tideRows) {
+                const dayCell = row.querySelector('.day');
+                if (dayCell && dayCell.textContent.includes(date.toString())) {
+                    todayRow = row;
+                    break;
+                }
+            }
+            
+            if (todayRow) {
+                // Get all tide cells for today
+                const tideCells = todayRow.querySelectorAll('[class^="tide-"]');
+                
+                // Update tide display
+                tideCells.forEach((cell, index) => {
+                    if (cell.className.includes('tide-')) {
+                        const tideElement = document.getElementById(`tide${index + 1}`);
+                        if (tideElement) {
+                            // Extract time and height
+                            const timeMatch = cell.textContent.match(/(\d+:\d+\s*[ap]m)/i);
+                            const heightMatch = cell.textContent.match(/(\d+\.?\d*)\s*m/);
+                            
+                            if (timeMatch && heightMatch) {
+                                const time = timeMatch[1];
+                                const heightM = parseFloat(heightMatch[1]);
+                                const heightFt = metersToFeet(heightM);
+                                const isHigh = cell.className.includes('tide-u');
+                                
+                                // Create separate divs for time and heights with colored triangle
+                                tideElement.innerHTML = `
+                                    <div class="tide-time">${time}</div>
+                                    <div class="tide-heights">
+                                        <span style="color: ${isHigh ? '#4CAF50' : '#f44336'}">${isHigh ? '▲' : '▼'}</span>
+                                        <span>${heightM.toFixed(1)}m / ${heightFt.toFixed(1)}ft</span>
+                                    </div>
+                                `;
+                            } else {
+                                tideElement.textContent = '--';
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error('Today\'s tide data not found in table');
+                // Set default values if today's data isn't found
+                for (let i = 1; i <= 4; i++) {
+                    const tideElement = document.getElementById(`tide${i}`);
+                    if (tideElement) {
+                        tideElement.textContent = '--';
+                    }
+                }
+            }
+        }
+
+        // Call the function to populate tide data
+        getTodaysTides();
+
+        document.getElementById('expandTides').addEventListener('click', function() {
+            const weeklyTides = document.getElementById('weeklyTides');
+            const expandButton = this;
+            const tideCard = expandButton.closest('div'); // Get the parent tide card
+            
+            // Toggle the weekly tides display
+            if (weeklyTides.style.display === 'none') {
+                weeklyTides.style.display = 'block';
+                expandButton.textContent = '−'; // Change to minus sign
+                populateWeeklyTides(); // Populate the data
+            } else {
+                weeklyTides.style.display = 'none';
+                expandButton.textContent = '+'; // Change back to plus sign
+            }
+        });
+
+        function populateWeeklyTides() {
+            const tbody = document.getElementById('weeklyTidesBody');
+            const tideTable = document.querySelector('.tide-table tbody');
+            
+            // Clear existing content
+            tbody.innerHTML = '';
+            
+            // Get all rows from the main tide table
+            const rows = tideTable.querySelectorAll('tr');
+            
+            rows.forEach(row => {
+                const day = row.querySelector('.day').textContent;
+                const tides = row.querySelectorAll('[class^="tide-"]');
+                
+                tides.forEach(tide => {
+                    if (tide.className.includes('tide-u') || tide.className.includes('tide-d')) {
+                        const timeMatch = tide.textContent.match(/(\d+:\d+\s*[ap]m)/i);
+                        const heightMatch = tide.textContent.match(/(\d+\.?\d*)\s*m/);
+                        
+                        if (timeMatch && heightMatch) {
+                            const tr = document.createElement('tr');
+                            const heightM = parseFloat(heightMatch[1]);
+                            const heightFt = metersToFeet(heightM);
+                            const isHigh = tide.className.includes('tide-u');
+                            
+                            tr.innerHTML = `
+                                <td style="padding: 8px; border-bottom: 1px solid #334455;">${day}</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #334455;">${timeMatch[1]}</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #334455; color: white;">
+                                    <span style="color: ${isHigh ? '#4CAF50' : '#f44336'}">${isHigh ? '▲' : '▼'}</span>
+                                    ${heightM.toFixed(1)}m / ${heightFt.toFixed(1)}ft
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Make sure this helper function exists
+        function degreesToCardinal(degrees) {
+            const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
+                               'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+            const index = Math.round(((parseFloat(degrees) + 11.25) % 360) / 22.5);
+            return directions[index % 16];
+        }
+
+        // Moon Phase Calculation
+        async function updateMoonPhase() {
+            try {
+                // Using the same API as sunrise/sunset for consistency
+                const response = await fetch('https://api.sunrise-sunset.org/json?lat=48.4284&lng=-123.3656&formatted=0');
+                const data = await response.json();
+                
+                // Calculate moon phase (0-1)
+                const date = new Date();
+                const synmonth = 29.53058867; // Synodic month length
+                const reference = new Date("2000-01-06 00:00:00"); // Known new moon date
+                const phase = ((date - reference) / (1000 * 60 * 60 * 24)) % synmonth / synmonth;
+                
+                // Update moon phase text
+                const moonPhaseText = document.getElementById('moon-phase-text');
+                const moonPhasePath = document.getElementById('moon-phase');
+                
+                // Determine phase name and update SVG
+                let phaseName;
+                if (phase < 0.0625 || phase >= 0.9375) {
+                    phaseName = 'New Moon';
+                    // Update SVG for new moon
+                    moonPhasePath.setAttribute('d', 'M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z');
+                    moonPhasePath.setAttribute('fill', '#001122');
+                } else if (phase < 0.1875) {
+                    phaseName = 'Waxing Crescent';
+                    // Add appropriate SVG path for waxing crescent
+                } else if (phase < 0.3125) {
+                    phaseName = 'First Quarter';
+                    // Add appropriate SVG path for first quarter
+                } else if (phase < 0.4375) {
+                    phaseName = 'Waxing Gibbous';
+                    // Add appropriate SVG path for waxing gibbous
+                } else if (phase < 0.5625) {
+                    phaseName = 'Full Moon';
+                    moonPhasePath.setAttribute('fill', '#E1E1E1');
+                } else if (phase < 0.6875) {
+                    phaseName = 'Waning Gibbous';
+                    // Add appropriate SVG path for waning gibbous
+                } else if (phase < 0.8125) {
+                    phaseName = 'Last Quarter';
+                    // Add appropriate SVG path for last quarter
+                } else {
+                    phaseName = 'Waning Crescent';
+                    // Add appropriate SVG path for waning crescent
+                }
+                
+                moonPhaseText.textContent = phaseName;
+                
+            } catch (error) {
+                console.error('Error updating moon phase:', error);
+                document.getElementById('moon-phase-text').textContent = 'unavailable';
+            }
+        }
+
+        // Call immediately and set interval
+        updateMoonPhase();
+        setInterval(updateMoonPhase, 3600000); // Update every hour
+    </script>
+</body>
+</html>

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juan de Fuca</title>
+    <!-- Multiple favicon sizes/formats -->
+    <link rel="icon" type="image/png" sizes="32x32" href="path/to/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="path/to/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="path/to/apple-touch-icon.png">
     <style>
         body {
             background-color: #001122;
@@ -19,7 +23,7 @@
         .time-banner {
             background-color: #112233;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: center;
             gap: 50px;
@@ -157,6 +161,47 @@
         .tide-heights span {
             white-space: nowrap;
         }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .embed-container {
+            position: relative;
+            padding-bottom: 75%;  // Changed from 40% to 60%
+            height: 0;
+            max-width: 100%;
+        }
+        .embed-container iframe,
+        .embed-container object,
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        small {
+            position: absolute;
+            z-index: 40;
+            bottom: 0;
+            margin-bottom: -15px;
+        }
     </style>
 </head>
 <body>
@@ -164,23 +209,24 @@
 
 
     <!-- Title Section -->
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; position: relative; background-color: #022841;">
-        <div style="display: flex; align-items: center; gap: 15px; margin-left: 1%;">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; position: relative; background-color: #022841;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-left: 1%;">
             <img src="https://raw.githubusercontent.com/Dollardium/surfthestrait/refs/heads/main/stslogo.png
-            " alt="Canadian Coast Guard Logo" style="height: 100px;">
-            <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                <h1 style="font-size: 2.5em; margin: 0;">Surf the Strait</h1>
-                <em style="font-size: 1.3em; color: #FFFFFF;">"Might as well check it out"</em>
+                 alt="Canadian Coast Guard Logo" 
+                 style="height: 80px;">
+            <div style="display: flex; flex-direction: column; align-items: flex-start; margin-left: -5px;">
+                <h1 style="font-size: 2em; margin: 0;">Live Conditions</h1>
+                <em style="font-size: 1.05em; color: #FFFFFF;">Juan de Fuca, BC</em>
             </div>
         </div>
-        <span id="time-victoria" style="font-size: 2em; color: #FFFFFF; font-weight: bold; margin-right: 2.5%;"></span>
+        <span id="time-victoria" style="font-size: 1.6em; color: #FFFFFF; font-weight: bold; margin-right: 2.5%;"></span>
     </div>
 
     <!-- Sunrise, Sunset, and Moon Phase Banner -->
-    <div class="sunrise-sunset-banner" style="margin: 20px 0; padding: 15px 0;">
-        <div style="display: flex; align-items: center; justify-content: center; gap: 100px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="sunrise-sunset-banner" style="margin: 14px 0; padding: 10px 0;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 70px;">
+            <div style="display: flex; align-items: center; gap: 7px;">
+                <svg width="45" height="45" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="4" fill="#FFB800"/>
                     <path d="M12 2V6" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
                     <path d="M12 18V22" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
@@ -189,11 +235,11 @@
                     <path d="M19.8 4.2L17 7" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
                     <path d="M7 17L4.2 19.8" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                <span id="sunrise" style="font-size: 1.2em;"></span>
+                <span id="sunrise" style="font-size: 0.85em;"></span>
             </div>
-            <span style="font-size: 1.4em; font-weight: bold; color: #FFFFFF;">|</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <span style="font-size: 1em; font-weight: bold; color: #FFFFFF;">|</span>
+            <div style="display: flex; align-items: center; gap: 7px;">
+                <svg width="45" height="45" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 18V22" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
                     <path d="M4 12H2" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
                     <path d="M22 12H20" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
@@ -201,21 +247,24 @@
                     <path d="M4.2 19.8L7 17" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
                     <path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12" stroke="#FF6B00" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                <span id="sunset" style="font-size: 1.2em;"></span>
+                <span id="sunset" style="font-size: 0.85em;"></span>
             </div>
-            <span style="font-size: 1.4em; font-weight: bold; color: #FFFFFF;">|</span>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <span style="font-size: 1em; font-weight: bold; color: #FFFFFF;">|</span>
+            <div style="display: flex; align-items: center; gap: 7px;">
+                <svg width="45" height="45" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="10" stroke="#E1E1E1" stroke-width="2"/>
                     <path id="moon-phase" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" fill="#E1E1E1"/>
                 </svg>
-                <span id="moon-phase-text" style="font-size: 1.2em;"></span>
+                <span id="moon-phase-text" style="font-size: 0.85em;"></span>
             </div>
         </div>
     </div>
     <!-- Current Weather Banner -->
     <div class="current-weather-banner" style="max-width: 95%; margin: 0 auto; border-radius: 8px;">
-        Current Conditions
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <div class="status-dot"></div>
+            Sea States
+        </div>
         <div style="font-size: 0.7em; margin-top: 5px;">
             <span id="weather-timestamp"></span>
         </div>
@@ -233,9 +282,16 @@
                 <div>
                     <span class="tide-label" style="margin-bottom: 8px; display: block;">J-Buoy</span>
                     <div style="display: flex; justify-content: center; align-items: center; gap: 18px;">
-                        <div id="wave-height" style="font-size: 1.7em; font-weight: bold;">-- ft</div>
-                        <div id="wave-direction" style="font-size: 1.7em; font-weight: bold;">--</div>
-                        <div id="wave-period" style="font-size: 1.7em; font-weight: bold;">-- s</div>
+                        <div id="wave-height" style="font-size: 1.4em; font-weight: bold;">-- ft</div>
+                        <div id="wave-direction" style="font-size: 1.4em; font-weight: bold;">--</div>
+                        <div id="wave-period" style="font-size: 1.4em; font-weight: bold;">-- s</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block;">La Perouse</span>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 18px;">
+                        <div id="lp-wave-height" style="font-size: 1.4em; font-weight: bold;">-- ft</div>
+                        <div id="lp-wave-period" style="font-size: 1.4em; font-weight: bold;">-- s</div>
                     </div>
                 </div>
             </div>
@@ -247,11 +303,23 @@
             <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 40px;">
                 <div>
                     <span class="tide-label" style="margin-bottom: 8px; display: block;">Water</span>
-                    <div id="water-temp" style="font-size: 1.7em; font-weight: bold;">--°C</div>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L7 7.5C5.1 9.4 4 12.1 4 14.5C4 18.6 7.4 22 12 22C16.6 22 20 18.6 20 14.5C20 12.1 18.9 9.4 17 7.5L12 2ZM12 19.5C8.8 19.5 6.5 17.2 6.5 14.5C6.5 12.8 7.3 10.8 8.7 9.4L12 5.8L15.3 9.3C16.7 10.8 17.5 12.8 17.5 14.5C17.5 17.2 15.2 19.5 12 19.5Z" fill="#4AA5FF"/>
+                            <path d="M12 19.5C14.7614 19.5 17 17.2614 17 14.5C17 11.7386 14.7614 9.5 12 9.5C9.23858 9.5 7 11.7386 7 14.5C7 17.2614 9.23858 19.5 12 19.5Z" fill="#4AA5FF"/>
+                        </svg>
+                        <div id="water-temp" style="font-size: 1.7em; font-weight: bold;">--°C</div>
+                    </div>
                 </div>
                 <div>
                     <span class="tide-label" style="margin-bottom: 8px; display: block;">Air</span>
-                    <div id="air-temp" style="font-size: 1.7em; font-weight: bold;">--°C</div>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.5 4C14.5 3.17157 13.8284 2.5 13 2.5C12.1716 2.5 11.5 3.17157 11.5 4V13.7578C10.5771 14.2964 10 15.3375 10 16.5C10 18.1569 11.3431 19.5 13 19.5C14.6569 19.5 16 18.1569 16 16.5C16 15.3375 15.4229 14.2964 14.5 13.7578V4Z" stroke="#FFB6B6" stroke-width="2"/>
+                            <path d="M13 22C15.7614 22 18 19.7614 18 17C18 14.2386 15.7614 12 13 12C10.2386 12 8 14.2386 8 17C8 19.7614 10.2386 22 13 22Z" fill="#FFB6B6"/>
+                        </svg>
+                        <div id="air-temp" style="font-size: 1.7em; font-weight: bold;">--°C</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -259,18 +327,28 @@
         <!-- Wind Card -->
         <div style="background-color: #112233; padding: 25px; border-radius: 8px; flex: 1; text-align: center;">
             <h3 style="margin: 0 0 12px 0;">Wind</h3>
-            <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 40px;">
+            <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 20px;">
                 <div>
-                    <span class="tide-label" style="margin-bottom: 8px; display: block;">Neah Bay</span>
-                    <div>
-                        <span id="wind-direction" style="font-size: 1.7em; font-weight: bold;"> --</span>
-                        <span id="wind-speed" style="font-size: 1.7em; font-weight: bold;">-- kts</span>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block; padding: 2px 12px;">Neah Bay</span>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 20px;">
+                        <svg id="neah-wind-arrow" width="45" height="45" viewBox="0 0 24 24" style="transform: rotate(0deg);">
+                            <path d="M12 2L9 8H15L12 2Z" fill="currentColor"/>
+                            <rect x="11" y="7" width="2" height="15" fill="currentColor"/>
+                        </svg>
+                        <div>
+                            <span id="wind-direction" style="font-size: 1.4em; font-weight: bold;"> --</span>
+                            <span id="wind-speed" style="font-size: 1.4em; font-weight: bold;">-- kts</span>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <span class="tide-label" style="margin-bottom: 8px; display: block;">Sheringham</span>
-                    <div>
-                        <span id="sheringham-wind" style="font-size: 1.7em; font-weight: bold;">-- kts</span>
+                    <span class="tide-label" style="margin-bottom: 8px; display: block; padding: 2px 12px;">Sheringham</span>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 20px;">
+                        <svg id="sheringham-wind-arrow" width="45" height="45" viewBox="0 0 24 24" style="transform: rotate(0deg);">
+                            <path d="M12 2L9 8H15L12 2Z" fill="currentColor"/>
+                            <rect x="11" y="7" width="2" height="15" fill="currentColor"/>
+                        </svg>
+                        <span id="sheringham-wind" style="font-size: 1.4em; font-weight: bold;">-- kts</span>
                     </div>
                 </div>
             </div>
@@ -311,93 +389,218 @@
             </div>
         </div>
     </div>
-
-    <!-- Surf Forecast Table -->
-   
-    <!-- Sombrio Beach Tide Table -->
-    <div class="table-responsive" style="margin: 20px auto; max-width: 90%; display: none;">
-        <table class="tide-table">
-            <caption style="color: white; font-size: 1.5em; margin-bottom: 10px; background-color: #223344; padding: 10px;">Sombrio Tides</caption>
-            <thead>
-                <tr>
-                    <th rowspan="2">Day</th>
-                    <th colspan="4">Tide Heights</th>
-                    <th colspan="2" rowspan="2">Sun</th>
-                </tr>
-                <tr>
-                    <th>1st Tide</th>
-                    <th>2nd Tide</th>
-                    <th>3rd Tide</th>
-                    <th>4th Tide</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="day">Tue 29</td>
-                    <td class="tide-u">12:28 am<div><i>▲</i> 2.4 m</div></td>
-                    <td class="tide-d">6:26 am<div><i>▼</i> 1.1 m</div></td>
-                    <td class="tide-u">12:41 pm<div><i>▲</i> 2.6 m</div></td>
-                    <td class="tide-d">7:05 pm<div><i>▼</i> 0.9 m</div></td>
-                    <td class="sun"><i>▲</i> 8:00 am</td>
-                    <td class="sun"><i>▼</i> 6:01 pm</td>
-                </tr>
-                <tr>
-                    <td class="day">Wed 30</td>
-                    <td class="tide-u">1:09 am<div><i>▲</i> 2.4 m</div></td>
-                    <td class="tide-d">6:58 am<div><i>▼</i> 1.1 m</div></td>
-                    <td class="tide-u">1:06 pm<div><i>▲</i> 2.7 m</div></td>
-                    <td class="tide-d">7:36 pm<div><i>▼</i> 0.8 m</div></td>
-                    <td class="sun"><i>▲</i> 8:01 am</td>
-                    <td class="sun"><i>▼</i> 6:00 pm</td>
-                </tr>
-                <tr>
-                    <td class="day">Thu 31</td>
-                    <td class="tide-u">1:47 am<div><i>▲</i> 2.5 m</div></td>
-                    <td class="tide-d">7:28 am<div><i>▼</i> 1.2 m</div></td>
-                    <td class="tide-u">1:31 pm<div><i>▲</i> 2.8 m</div></td>
-                    <td class="tide-d">8:07 pm<div><i>▼</i> 0.7 m</div></td>
-                    <td class="sun"><i>▲</i> 8:03 am</td>
-                    <td class="sun"><i>▼</i> 5:58 pm</td>
-                </tr>
-                <tr>
-                    <td class="day">Fri 1</td>
-                    <td class="tide-u">2:23 am<div><i>▲</i> 2.5 m</div></td>
-                    <td class="tide-d">7:57 am<div><i>▼</i> 1.2 m</div></td>
-                    <td class="tide-u">1:56 pm<div><i>▲</i> 2.8 m</div></td>
-                    <td class="tide-d">8:37 pm<div><i>▼</i> 0.6 m</div></td>
-                    <td class="sun"><i>▲</i> 8:04 am</td>
-                    <td class="sun"><i>▼</i> 5:57 pm</td>
-                </tr>
-                <tr>
-                    <td class="day">Sat 2</td>
-                    <td class="tide-u">2:58 am<div><i>▲</i> 2.5 m</div></td>
-                    <td class="tide-d">8:26 am<div><i>▼</i> 1.3 m</div></td>
-                    <td class="tide-u">2:22 pm<div><i>▲</i> 2.8 m</div></td>
-                    <td class="tide-d">9:09 pm<div><i>▼</i> 0.6 m</div></td>
-                    <td class="sun"><i>▲</i> 8:06 am</td>
-                    <td class="sun"><i>▼</i> 5:55 pm</td>
-                </tr>
-                <tr>
-                    <td class="day">Sun 3</td>
-                    <td class="tide-u">3:34 am<div><i>▲</i> 2.4 m</div></td>
-                    <td class="tide-d">8:55 am<div><i>▼</i> 1.4 m</div></td>
-                    <td class="tide-u">2:50 pm<div><i>▲</i> 2.8 m</div></td>
-                    <td class="tide-d">9:42 pm<div><i>▼</i> 0.6 m</div></td>
-                    <td class="sun"><i>▲</i> 8:07 am</td>
-                    <td class="sun"><i>▼</i> 5:54 pm</td>
-                </tr>
-                <tr>
-                    <td class="day">Mon 4</td>
-                    <td class="tide-u">4:12 am<div><i>▲</i> 2.4 m</div></td>
-                    <td class="tide-d">9:25 am<div><i>▼</i> 1.5 m</div></td>
-                    <td class="tide-u">3:19 pm<div><i>▲</i> 2.8 m</div></td>
-                    <td class="tide-d">10:18 pm<div><i>▼</i> 0.6 m</div></td>
-                    <td class="sun"><i>▲</i> 7:09 am</td>
-                    <td class="sun"><i>▼</i> 4:52 pm</td>
-                </tr>
-            </tbody>
-        </table>
+ <!-- Road Conditions Banner -->
+    <div class="current-weather-banner" style="width: 95%; margin: 0 auto; border-radius: 8px;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span class="pulse" style="display: inline-block; width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; animation: pulse 2s infinite;"></span>
+            <style>
+                @keyframes pulse {
+                    0% { opacity: 1; }
+                    50% { opacity: 0.3; }
+                    100% { opacity: 1; }
+                }
+            </style>
+            Road Conditions & Active Warnings
+        </div>
+        <div style="font-size: 0.7em; margin-top: 5px;">
+            <span id="road-conditions-timestamp">Loading...</span>
+        </div>
     </div>
+    <!-- Road Conditions Card -->
+    <div style="background-color: #112233; padding: 25px; border-radius: 8px; margin: 20px auto 0; width: 94%;">
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+            <!-- Camera Feed -->
+            <div style="flex: 1; min-width: 300px; max-width: 50%;">
+                <h4 style="margin: 0 0 10px 0; padding: 8px; background-color: #1a2b3c; border-radius: 4px;">
+                    <svg style="width: 20px; height: 20px; margin-right: 8px; vertical-align: text-bottom;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23 19C23 19.5523 22.5523 20 22 20H2C1.44772 20 1 19.5523 1 19V8C1 7.44772 1.44772 7 2 7H6L8 5H16L18 7H22C22.5523 7 23 7.44772 23 8V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Jordan River
+                </h4>
+                <div style="background-color: #1a2b3c; padding: 15px; border-radius: 4px; height: 400px;">
+                    <img src="https://cache.drivebc.ca/bchighwaycam/pub/cameras/342.jpg" 
+                         alt="Highway 14 Camera Feed" 
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                </div>
+            </div>
+
+            <!-- Warnings Feed -->
+            <div style="flex: 1; min-width: 300px; max-width: 50%;">
+                <h4 style="margin: 0 0 10px 0; padding: 8px; background-color: #1a2b3c; border-radius: 4px;">
+                    <svg style="width: 20px; height: 20px; margin-right: 8px; vertical-align: text-bottom;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Highway 14
+                </h4>
+                <div id="warnings-container" style="height: 400px; overflow-y: auto; background-color: #1a2b3c; padding: 15px; border-radius: 4px;">
+                    Loading warnings...
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Map and Alerts Section -->
+        <div style="width: 100%; margin: 20px auto;">
+            <h4 style="margin: 0 0 10px 0; padding: 12px; background-color: #1a2b3c; border-radius: 4px; font-size: 1.3em;">
+                <svg style="width: 24px; height: 24px; margin-right: 10px; vertical-align: text-bottom;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 9V14M12 17V17.01M12 3L2 21H22L12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Advisories - BC Coast
+            </h4>
+            <div style="display: flex; gap: 20px;">
+                <!-- Left Indicators -->
+                <div style="flex: 1; display: grid; grid-template-rows: repeat(2, 1fr); gap: 15px;">
+                    <!-- Tsunami Warning Indicator -->
+                    <div id="tsunami-alert" style="padding: 15px; background-color: #1a2b3c; border-radius: 8px;">
+                        <!-- Header -->
+                        <h4 style="margin: 0 0 20px 0; padding: 12px; background-color: #1a2b3c; border-radius: 4px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <div class="status-dot"></div>
+                            Tsunami Warnings
+                        </h4>
+                        <!-- Content -->
+                        <div id="tsunami-details" style="margin: 20px 0; font-size: 1.1em; padding: 15px;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                No current warnings in Pacific Ocean
+                            </div>
+                            <!-- Footer -->
+                            <div style="font-size: 0.8em; color: #CCCCCC; margin-top: 15px; padding-top: 15px; border-top: 1px solid #334455;">
+                                Source: NOAA's Pacific Tsunami Warning Center
+                                <br>
+                                Last updated: ${new Date().toLocaleString()}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Earthquakes -->
+                    <div id="earthquake-alert" style="padding: 15px; background-color: #1a2b3c; border-radius: 8px;">
+                        <h4 style="margin: 0 0 20px 0; padding: 12px; background-color: #1a2b3c; border-radius: 4px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <div class="status-dot"></div>
+                            Recent Earthquakes
+                        </h4>
+                        <div id="earthquake-list" style="max-height: 200px; overflow-y: auto; padding: 8px;">
+                            Loading earthquake data...
+                        </div>
+                        <div style="font-size: 0.7em; color: #888888; margin-top: 15px; border-top: 1px solid #334455; padding-top: 15px;">
+                            Source: USGS Earthquake Hazards Program
+                            <br>
+                            Last updated: <span id="earthquake-timestamp">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map Column -->
+                <div style="flex: 4;">
+                    <div class="embed-container">
+                        <iframe 
+                            width="100" 
+                            height="100"
+                            frameborder="0"
+                            scrolling="no"
+                            title="STS" 
+                            src="https://ccgroc.maps.arcgis.com/apps/Embed/index.html?webmap=5d4645193b434b46aa63343006245fde&extent=-132.3373,47.1175,-120.2239,51.7772&home=true&zoom=true&theme=dark">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Right Indicators -->
+                <div style="flex: 1; display: grid; grid-template-rows: repeat(2, 1fr); gap: 15px;">
+                    <!-- Wildfire Alerts -->
+                    <div id="wildfire-alert" style="padding: 15px; background-color: #1a2b3c; border-radius: 8px;">
+                        <h4 style="margin: 0 0 10px 0; padding: 8px; background-color: #1a2b3c; border-radius: 4px; text-align: center; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <div class="status-dot"></div>
+                            Active Wildfires
+                        </h4>
+                        <div id="wildfire-details" style="margin-top: 5px; font-size: 0.9em; padding: 8px;">
+                            No active wildfires in the region
+                        </div>
+                    </div>
+
+                    <!-- Flood Warnings -->
+                    <div id="flood-alert" style="padding: 15px; background-color: #1a2b3c; border-radius: 8px;">
+                        <h4 style="margin: 0 0 10px 0; padding: 8px; background-color: #1a2b3c; border-radius: 4px; text-align: center; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <div class="status-dot"></div>
+                            Flood Warnings
+                        </h4>
+                        <div id="flood-details" style="margin-top: 5px; font-size: 0.9em; padding: 8px;">
+                            Loading flood data...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchRoadWarnings() {
+            try {
+                const corsProxy = 'https://corsproxy.io/?';
+                const rssUrl = encodeURIComponent('https://www.drivebc.ca/api/events/region/vanisland?format=rss');
+                const response = await fetch(corsProxy + rssUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, "text/xml");
+                const items = xmlDoc.getElementsByTagName("item");
+                
+                const warningsContainer = document.getElementById('warnings-container');
+                warningsContainer.innerHTML = ''; // Clear loading message
+                
+                // Update timestamp
+                const timestamp = document.getElementById('road-conditions-timestamp');
+                timestamp.textContent = new Date().toLocaleString();
+                
+                let foundWarnings = false;
+                
+                for (let item of items) {
+                    const title = item.getElementsByTagName("title")[0].textContent;
+                    const description = item.getElementsByTagName("description")[0].textContent;
+                    const pubDate = item.getElementsByTagName("pubDate")[0].textContent;
+                    
+                    // Only show warnings for Highway 14
+                    if (title.includes("Highway 14") || description.includes("Highway 14")) {
+                        foundWarnings = true;
+                        const warningDiv = document.createElement('div');
+                        warningDiv.style.marginBottom = '15px';
+                        warningDiv.style.padding = '10px';
+                        warningDiv.style.borderLeft = '3px solid #ff6b00';
+                        warningDiv.style.backgroundColor = '#223344';
+                        
+                        warningDiv.innerHTML = `
+                            <div style="font-weight: bold; margin-bottom: 5px;">${title}</div>
+                            <div style="font-size: 0.9em;">${description}</div>
+                            <div style="font-size: 0.8em; color: #888; margin-top: 5px;">
+                                ${new Date(pubDate).toLocaleString()}
+                            </div>
+                        `;
+                        
+                        warningsContainer.appendChild(warningDiv);
+                    }
+                }
+                
+                if (!foundWarnings) {
+                    warningsContainer.innerHTML = '<div style="text-align: center; color: #888;">No current warnings for Highway 14</div>';
+                }
+                
+            } catch (error) {
+                console.error('Error fetching road warnings:', error);
+                document.getElementById('warnings-container').innerHTML = 
+                    '<div style="color: #ff6b00;">Error loading warnings. Please try again later.</div>';
+            }
+        }
+
+        // Initial fetch and refresh every 5 minutes
+        fetchRoadWarnings();
+        setInterval(fetchRoadWarnings, 300000);
+    </script>
+
+    <div style="height: 40px;"></div>
 
     <!-- Weather Outlook Header -->
     <div class="current-weather-banner" style="width: 95%; margin: 0 auto; border-radius: 8px;">
@@ -424,8 +627,8 @@
     <!-- Footer -->
     <footer style="background-color: #333; color: white; padding: 20px 0; text-align: center; margin-top: 40px;">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <p style="margin: 5px 0;">© 2024 Victoria Marine Weather Dashboard</p>
-            <p style="margin: 5px 0; font-size: 0.9em;">Data sources: Environment Canada, Windy.com, NOAA</p>
+            <p style="margin: 5px 0;">© 2024 Surf the Strait</p>
+            <p style="margin: 5px 0; font-size: 0.9em;">Data sources: Environment Canada, Windy.com, NOAA, USGS, BC Wildfire Service, DFO, Drive BC</p>
             <p style="margin: 5px 0; font-size: 0.8em;">For recreational use only. Not to be used for navigational purposes.</p>
         </div>
     </footer>
@@ -538,9 +741,12 @@
 
                 if (windData) {
                     const sheringhamElement = document.getElementById('sheringham-wind');
-                    // Extract just the number from the wind data using regex
-                    const windSpeed = windData.match(/\d+/);  // This will match one or more digits
+                    // Extract direction and speed from windData
+                    const direction = windData.match(/[NSEW]+/)[0];  // Extract cardinal direction
+                    const windSpeed = windData.match(/\d+/);  // Extract speed
                     sheringhamElement.textContent = windData.trim() + ' kts';
+                    // Update Sheringham wind arrow
+                    updateWindArrow('sheringham-wind-arrow', direction);
                     // Pass the parsed wind speed to updateWindColor
                     updateWindColor(sheringhamElement, windSpeed ? parseFloat(windSpeed[0]) : null);
                 } else {
@@ -648,9 +854,56 @@
                     const windDirectionElement = document.getElementById('wind-direction');
                     const direction = degreesToCardinal(data['WDIR']);
                     windDirectionElement.textContent = direction;
+                    // Update Neah Bay wind arrow
+                    updateWindArrow('neah-wind-arrow', direction);
                     // Use the wind speed for coloring if available
                     const windSpeed = data['WSPD'] !== 'MM' ? parseFloat(data['WSPD']) * 1.944 : null;
                     updateWindColor(windDirectionElement, windSpeed);
+                }
+
+                // Fetch La Perouse data
+                try {
+                    const lpBuoyUrl = encodeURIComponent('https://www.ndbc.noaa.gov/data/realtime2/46206.txt');
+                    const lpResponse = await fetch(corsProxy + lpBuoyUrl);
+                    
+                    if (!lpResponse.ok) {
+                        throw new Error(`HTTP error! status: ${lpResponse.status}`);
+                    }
+                    
+                    const lpText = await lpResponse.text();
+                    const lpLines = lpText.split('\n');
+                    
+                    if (lpLines.length < 3) {
+                        throw new Error('Invalid La Perouse data format');
+                    }
+
+                    const lpHeaders = lpLines[0].trim().split(/\s+/);
+                    const lpLatestData = lpLines[2].trim().split(/\s+/);
+                    
+                    const lpData = {};
+                    lpHeaders.forEach((header, index) => {
+                        lpData[header] = lpLatestData[index];
+                    });
+
+                    // Update La Perouse wave data
+                    if (lpData['WVHT'] && lpData['WVHT'] !== 'MM') {
+                        const waveHeightFt = (parseFloat(lpData['WVHT']) * 3.28084).toFixed(1);
+                        document.getElementById('lp-wave-height').textContent = `${waveHeightFt} ft`;
+                    }
+
+                    if (lpData['MWD'] && lpData['MWD'] !== 'MM') {
+                        document.getElementById('lp-wave-direction').textContent = degreesToCardinal(lpData['MWD']);
+                    }
+
+                    if (lpData['DPD'] && lpData['DPD'] !== 'MM') {
+                        document.getElementById('lp-wave-period').textContent = `${lpData['DPD']} s`;
+                    }
+
+                } catch (error) {
+                    console.error("Failed to fetch La Perouse buoy data:", error);
+                    ['lp-wave-height', 'lp-wave-direction', 'lp-wave-period'].forEach(id => {
+                        document.getElementById(id).textContent = '--';
+                    });
                 }
 
             } catch (error) {
@@ -690,126 +943,131 @@
             return meters * 3.28084;
         }
 
-        // Function to get today's tides from the tide table
-        function getTodaysTides() {
-            const today = new Date();
-            const date = today.getDate();
-            
-            // Find today's row in the tide table
-            const tideRows = document.querySelectorAll('.tide-table tbody tr');
-            let todayRow;
-            
-            for (const row of tideRows) {
-                const dayCell = row.querySelector('.day');
-                if (dayCell && dayCell.textContent.includes(date.toString())) {
-                    todayRow = row;
-                    break;
+        // Function to read and parse CSV file
+        async function loadTideData() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/Dollardium/surfthestrait/refs/heads/main/renfrew_tides.csv');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            }
-            
-            if (todayRow) {
-                // Get all tide cells for today
-                const tideCells = todayRow.querySelectorAll('[class^="tide-"]');
+                const data = await response.text();
+                console.log('Raw CSV data:', data); // Debug log
                 
-                // Update tide display
-                tideCells.forEach((cell, index) => {
-                    if (cell.className.includes('tide-')) {
-                        const tideElement = document.getElementById(`tide${index + 1}`);
-                        if (tideElement) {
-                            // Extract time and height
-                            const timeMatch = cell.textContent.match(/(\d+:\d+\s*[ap]m)/i);
-                            const heightMatch = cell.textContent.match(/(\d+\.?\d*)\s*m/);
-                            
-                            if (timeMatch && heightMatch) {
-                                const time = timeMatch[1];
-                                const heightM = parseFloat(heightMatch[1]);
-                                const heightFt = metersToFeet(heightM);
-                                const isHigh = cell.className.includes('tide-u');
-                                
-                                // Create separate divs for time and heights with colored triangle
-                                tideElement.innerHTML = `
-                                    <div class="tide-time">${time}</div>
-                                    <div class="tide-heights">
-                                        <span style="color: ${isHigh ? '#4CAF50' : '#f44336'}">${isHigh ? '▲' : '▼'}</span>
-                                        <span>${heightM.toFixed(1)}m / ${heightFt.toFixed(1)}ft</span>
-                                    </div>
-                                `;
-                            } else {
-                                tideElement.textContent = '--';
-                            }
-                        }
-                    }
-                });
-            } else {
-                console.error('Today\'s tide data not found in table');
-                // Set default values if today's data isn't found
-                for (let i = 1; i <= 4; i++) {
-                    const tideElement = document.getElementById(`tide${i}`);
-                    if (tideElement) {
-                        tideElement.textContent = '--';
-                    }
-                }
+                // Split into rows and remove header
+                const rows = data.split('\n');
+                const tides = rows.slice(1).map(row => {
+                    const [dateTime, feet] = row.split(',');
+                    return {
+                        dateTime: dateTime.trim(),
+                        height: parseFloat(feet)
+                    };
+                }).filter(tide => tide.dateTime && !isNaN(tide.height)); // Filter out any invalid entries
+                
+                console.log('Parsed tides:', tides); // Debug log
+                return tides;
+            } catch (error) {
+                console.error('Error loading tide data:', error);
+                return [];
             }
         }
 
-        // Call the function to populate tide data
-        getTodaysTides();
+        // Function to update tide display
+        async function updateTides() {
+            try {
+                const tides = await loadTideData();
+                
+                // Get today's date in YYYY-MM-DD format
+                const today = new Date().toISOString().split('T')[0];
+                console.log('Today:', today);
+                
+                // Filter tides for today
+                const todaysTides = tides.filter(tide => tide.dateTime.startsWith(today));
+                console.log('Today\'s tides:', todaysTides);
+                
+                // Update the first 4 tide values
+                for (let i = 0; i < 4; i++) {
+                    const tideElement = document.getElementById(`tide${i + 1}`);
+                    if (tideElement && todaysTides[i]) {
+                        const time = todaysTides[i].dateTime.split('T')[1].substring(0, 5);
+                        const heightFt = todaysTides[i].height;
+                        const heightM = (heightFt * 0.3048).toFixed(1);
+                        
+                        // Determine if it's high or low tide
+                        const isHigh = i > 0 && i < todaysTides.length - 1 
+                            ? todaysTides[i].height > todaysTides[i - 1].height && 
+                              todaysTides[i].height > todaysTides[i + 1].height
+                            : todaysTides[i].height > 6.0; // Assuming tides above 6ft are high tides
+                        
+                        tideElement.innerHTML = `
+                            <div style="font-size: 0.9em;">${time}</div>
+                            <div>
+                                <span style="color: ${isHigh ? '#4CAF50' : '#f44336'}">${isHigh ? '▲' : '▼'}</span>
+                                ${heightM}m / ${heightFt.toFixed(1)}ft
+                            </div>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating tides:', error);
+            }
+        }
 
+        // Function to populate weekly tides
+        async function populateWeeklyTides() {
+            try {
+                const tides = await loadTideData();
+                const tbody = document.getElementById('weeklyTidesBody');
+                tbody.innerHTML = '';
+                
+                tides.forEach((tide, index) => {
+                    const tr = document.createElement('tr');
+                    const heightFt = tide.height;
+                    const heightM = (heightFt * 0.3048).toFixed(1);
+                    const time = tide.dateTime.split('T')[1].substring(0, 5);
+                    const date = tide.dateTime.split('T')[0];
+                    
+                    // Determine if it's high or low tide
+                    const isHigh = index > 0 && index < tides.length - 1 
+                        ? tide.height > tides[index - 1].height && 
+                          tide.height > tides[index + 1].height
+                        : tide.height > 6.0;
+                    
+                    tr.innerHTML = `
+                        <td style="padding: 8px; border-bottom: 1px solid #334455;">${date}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #334455;">${time}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #334455; color: white;">
+                            <span style="color: ${isHigh ? '#4CAF50' : '#f44336'}">${isHigh ? '▲' : '▼'}</span>
+                            ${heightM}m / ${heightFt.toFixed(1)}ft
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error populating weekly tides:', error);
+            }
+        }
+
+        // Initialize tide data
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTides();
+            // Update tides every hour
+            setInterval(updateTides, 3600000);
+        });
+
+        // Make sure the expand button listener is set up
         document.getElementById('expandTides').addEventListener('click', function() {
             const weeklyTides = document.getElementById('weeklyTides');
             const expandButton = this;
-            const tideCard = expandButton.closest('div'); // Get the parent tide card
             
-            // Toggle the weekly tides display
             if (weeklyTides.style.display === 'none') {
                 weeklyTides.style.display = 'block';
-                expandButton.textContent = '−'; // Change to minus sign
-                populateWeeklyTides(); // Populate the data
+                expandButton.textContent = '−';
+                populateWeeklyTides();
             } else {
                 weeklyTides.style.display = 'none';
-                expandButton.textContent = '+'; // Change back to plus sign
+                expandButton.textContent = '+';
             }
         });
-
-        function populateWeeklyTides() {
-            const tbody = document.getElementById('weeklyTidesBody');
-            const tideTable = document.querySelector('.tide-table tbody');
-            
-            // Clear existing content
-            tbody.innerHTML = '';
-            
-            // Get all rows from the main tide table
-            const rows = tideTable.querySelectorAll('tr');
-            
-            rows.forEach(row => {
-                const day = row.querySelector('.day').textContent;
-                const tides = row.querySelectorAll('[class^="tide-"]');
-                
-                tides.forEach(tide => {
-                    if (tide.className.includes('tide-u') || tide.className.includes('tide-d')) {
-                        const timeMatch = tide.textContent.match(/(\d+:\d+\s*[ap]m)/i);
-                        const heightMatch = tide.textContent.match(/(\d+\.?\d*)\s*m/);
-                        
-                        if (timeMatch && heightMatch) {
-                            const tr = document.createElement('tr');
-                            const heightM = parseFloat(heightMatch[1]);
-                            const heightFt = metersToFeet(heightM);
-                            const isHigh = tide.className.includes('tide-u');
-                            
-                            tr.innerHTML = `
-                                <td style="padding: 8px; border-bottom: 1px solid #334455;">${day}</td>
-                                <td style="padding: 8px; border-bottom: 1px solid #334455;">${timeMatch[1]}</td>
-                                <td style="padding: 8px; border-bottom: 1px solid #334455; color: white;">
-                                    <span style="color: ${isHigh ? '#4CAF50' : '#f44336'}">${isHigh ? '▲' : '▼'}</span>
-                                    ${heightM.toFixed(1)}m / ${heightFt.toFixed(1)}ft
-                                </td>
-                            `;
-                            tbody.appendChild(tr);
-                        }
-                    }
-                });
-            });
-        }
 
         // Make sure this helper function exists
         function degreesToCardinal(degrees) {
@@ -877,6 +1135,429 @@
         // Call immediately and set interval
         updateMoonPhase();
         setInterval(updateMoonPhase, 3600000); // Update every hour
+
+        // Helper function to convert cardinal direction to degrees
+        function cardinalToDegrees(cardinal) {
+            const directions = {
+                'N': 0, 'NNE': 22.5, 'NE': 45, 'ENE': 67.5,
+                'E': 90, 'ESE': 112.5, 'SE': 135, 'SSE': 157.5,
+                'S': 180, 'SSW': 202.5, 'SW': 225, 'WSW': 247.5,
+                'W': 270, 'WNW': 292.5, 'NW': 315, 'NNW': 337.5
+            };
+            return directions[cardinal] || 0;
+        }
+
+        // Function to update wind arrow rotation
+        function updateWindArrow(arrowId, direction) {
+            const arrow = document.getElementById(arrowId);
+            if (arrow && direction) {
+                // Add 180 because the arrow should point FROM where the wind is coming
+                const degrees = (cardinalToDegrees(direction) + 180) % 360;
+                arrow.style.transform = `rotate(${degrees}deg)`;
+            }
+        }
+
+        // USGS Earthquakes API for Pacific Northwest
+        const earthquakeURL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
+
+        async function getRecentEarthquakes() {
+            try {
+                // USGS API for the last 7 days, all magnitudes
+                const corsProxy = 'https://corsproxy.io/?';
+                const earthquakeURL = encodeURIComponent(
+                    'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson'
+                );
+                
+                const response = await fetch(corsProxy + earthquakeURL);
+                const data = await response.json();
+                
+                // Filter for:
+                // 1. BC/Washington area (roughly 45°N to 55°N, -130°W to -115°W)
+                // 2. OR significant earthquakes (M4.5+) from a broader region that could impact BC
+                return data.features.filter(quake => {
+                    const [lon, lat] = quake.geometry.coordinates;
+                    const magnitude = quake.properties.mag;
+                    
+                    // Local earthquakes (any magnitude)
+                    const isLocalQuake = (
+                        lat >= 45 && lat <= 55 && // BC/WA latitude range
+                        lon >= -130 && lon <= -115 && // BC/WA longitude range
+                        magnitude >= 2.0 // Filter out very small quakes
+                    );
+                    
+                    // Significant regional earthquakes that could impact BC
+                    const isSignificantRegional = (
+                        lat >= 40 && lat <= 60 && // Broader latitude range
+                        lon >= -140 && lon <= -110 && // Broader longitude range
+                        magnitude >= 4.5 // Significant magnitude
+                    );
+                    
+                    return isLocalQuake || isSignificantRegional;
+                })
+                .sort((a, b) => b.properties.time - a.properties.time) // Sort by most recent
+                .slice(0, 5); // Show only the 5 most recent relevant quakes
+                
+            } catch (error) {
+                console.error('Error fetching earthquake data:', error);
+                return [];
+            }
+        }
+
+        async function checkTsunamiWarnings() {
+            try {
+                const corsProxy = 'https://corsproxy.io/?';
+                // Using NOAA's Pacific Tsunami Warning Center feed
+                const tsunamiURL = encodeURIComponent('https://www.tsunami.gov/events/xml/PAAQAtom.xml');
+                const response = await fetch(corsProxy + tsunamiURL);
+                const text = await response.text();
+                
+                // Parse XML
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, 'text/xml');
+                const entries = xmlDoc.getElementsByTagName('entry');
+                
+                // Get recent tsunami events
+                const tsunamiEvents = Array.from(entries).map(entry => ({
+                    title: entry.getElementsByTagName('title')[0]?.textContent,
+                    updated: entry.getElementsByTagName('updated')[0]?.textContent,
+                    summary: entry.getElementsByTagName('summary')[0]?.textContent,
+                    link: entry.getElementsByTagName('link')[0]?.getAttribute('href')
+                })).filter(event => 
+                    // Filter for actual tsunami events/warnings
+                    event.title?.toLowerCase().includes('tsunami') &&
+                    // Only include events from the last 24 hours
+                    new Date(event.updated) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+                );
+
+                return {
+                    hasWarning: tsunamiEvents.length > 0,
+                    details: tsunamiEvents
+                };
+            } catch (error) {
+                console.error('Error fetching tsunami data:', error);
+                return { hasWarning: false, details: [] };
+            }
+        }
+
+        // Update the display function
+        function updateTsunamiDisplay(tsunamiStatus) {
+            const tsunamiDetails = document.getElementById('tsunami-details');
+            const tsunamiDot = document.querySelector('#tsunami-alert .status-dot');
+            
+            if (tsunamiStatus.hasWarning) {
+                tsunamiDetails.innerHTML = `
+                    <div style="margin-bottom: 80px;">
+                        ${tsunamiStatus.details.map(event => `
+                            <div style="margin-bottom: 15px;">
+                                <div style="color: #ff4444; font-weight: bold; margin-bottom: 5px;">
+                                    ${event.title}
+                                </div>
+                                <div style="font-size: 0.8em; margin-bottom: 3px;">
+                                    ${new Date(event.updated).toLocaleString()}
+                                </div>
+                                <div style="font-size: 0.9em;">
+                                    ${event.summary}
+                                </div>
+                                ${event.link ? `<a href="${event.link}" target="_blank" style="color: #4CAF50; font-size: 0.8em;">More details</a>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="font-size: 0.7em; color: #
+                    ; margin-top: 80px; border-top: 1px solid #334455; padding-top: 15px;">
+                        Source: NOAA's Pacific Tsunami Warning Center
+                        <br>
+                        Last updated: ${new Date().toLocaleString()}
+                    </div>
+                `;
+                tsunamiDot.style.backgroundColor = '#ff0000';
+                tsunamiDetails.style.color = '#ff0000';
+            } else {
+                tsunamiDetails.innerHTML = `
+                    <div style="margin-bottom: 80px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            No Warnings, Advisory, Watch, or Threat in the Pacific Ocean
+                        </div>
+                    </div>
+                    <div style="font-size: 0.7em; color: #888888; margin-top: 120px; border-top: 1px solid #334455; padding-top: 15px;">
+                        Source: NOAA's Pacific Tsunami Warning Center
+                        <br>
+                        Last updated: ${new Date().toLocaleString()}
+                    </div>
+                `;
+                tsunamiDot.style.backgroundColor = '#00ff00';
+                tsunamiDetails.style.color = '#00ff00';
+            }
+        }
+
+        // Update the alerts function
+        async function updateAlerts() {
+            // Check for tsunami warnings
+            const tsunamiStatus = await checkTsunamiWarnings();
+            updateTsunamiDisplay(tsunamiStatus);
+            
+            // Update earthquake list
+            const earthquakeList = document.getElementById('earthquake-list');
+            const earthquakes = await getRecentEarthquakes();
+            
+            if (earthquakes && earthquakes.length > 0) {
+                earthquakeList.innerHTML = earthquakes.map(quake => {
+                    const magnitude = quake.properties.mag;
+                    const magnitudeColor = magnitude >= 4.5 ? '#ff4444' : 
+                                         magnitude >= 3.0 ? '#ffaa44' : '#88aa88';
+                    
+                    return `
+                        <div style="margin-bottom: 10px; padding: 8px; border-bottom: 1px solid #334455; background-color: #1a2b3c;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="color: ${magnitudeColor}; font-weight: bold;">M${magnitude.toFixed(1)}</span>
+                                <span style="font-size: 0.8em; color: #888;">
+                                    ${new Date(quake.properties.time).toLocaleString()}
+                                </span>
+                            </div>
+                            <div style="font-size: 0.9em; margin-top: 4px;">
+                                ${quake.properties.place}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                earthquakeList.innerHTML = 'No significant earthquakes in the region';
+            }
+
+            // Update the timestamp
+            document.getElementById('earthquake-timestamp').textContent = new Date().toLocaleString('en-US', {
+                timeZone: 'America/Vancouver',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            });
+        }
+
+        // Initial update
+        updateAlerts();
+
+        // Update every 5 minutes
+        setInterval(updateAlerts, 300000);
+
+        // Add some CSS for better visibility
+        const style = document.createElement('style');
+        style.textContent = `
+            .status-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #00ff00;
+            }
+            
+            #earthquake-list {
+                max-height: 300px;
+                overflow-y: auto;
+                padding-right: 5px;
+            }
+            
+            #earthquake-list::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            #earthquake-list::-webkit-scrollbar-track {
+                background: #1a2b3c;
+            }
+            
+            #earthquake-list::-webkit-scrollbar-thumb {
+                background: #334455;
+                border-radius: 3px;
+            }
+        `;
+        document.head.appendChild(style);
+
+        async function updateWildfireData() {
+            try {
+                const corsProxy = 'https://corsproxy.io/?';
+                const apiUrl = encodeURIComponent('https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=FIRE_STATUS%3D%27Active%27&outFields=FIRE_NUMBER,GEOGRAPHIC_DESCRIPTION,FIRE_STATUS,FIRE_CAUSE,RESPONSE_TYPE,IGNITION_DATE,FIRE_SIZE&returnGeometry=true&f=json');
+                
+                const response = await fetch(corsProxy + apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const wildfireDetails = document.getElementById('wildfire-details');
+                const statusDot = document.querySelector('#wildfire-alert .status-dot');
+
+                // Define Southern Vancouver Island boundaries
+                const southernVIBounds = {
+                    north: 49.5,
+                    south: 48.3,
+                    east: -123.3,
+                    west: -125.0
+                };
+
+                // Filter for Southern Vancouver Island fires
+                const southernVIFires = data.features?.filter(fire => {
+                    if (!fire.geometry || !fire.geometry.coordinates) return false;
+                    const coords = fire.geometry.coordinates;
+                    return coords[1] >= southernVIBounds.south && 
+                           coords[1] <= southernVIBounds.north && 
+                           coords[0] >= southernVIBounds.west && 
+                           coords[0] <= southernVIBounds.east;
+                }) || [];
+
+                // Get current time for the footer
+                const currentTime = new Date().toLocaleString('en-US', {
+                    timeZone: 'America/Vancouver',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                });
+
+                // Create the HTML content
+                let contentHtml = `
+                   
+                    
+                    <!-- Content -->
+                    <div style="margin: 20px 0; font-size: 1.1em; padding: 15px;">
+                        ${southernVIFires.length > 0 
+                            ? southernVIFires.map(fire => `
+                                <div style="margin-bottom: 10px; padding: 8px; border-bottom: 1px solid #334455;">
+                                    <div style="font-weight: bold;">${fire.attributes.GEOGRAPHIC_DESCRIPTION}</div>
+                                    <div style="font-size: 0.8em;">
+                                        Size: ${fire.attributes.FIRE_SIZE.toFixed(1)} hectares<br>
+                                        Cause: ${fire.attributes.FIRE_CAUSE}<br>
+                                        Status: ${fire.attributes.FIRE_STATUS}
+                                    </div>
+                                </div>
+                            `).join('')
+                            : `<div style="display: flex; align-items: center; gap: 12px;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="#00ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span style="color: #00ff00;">No active wildfires on Southern Vancouver Island</span>
+                            </div>`
+                        }
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="font-size: 0.8em; color: #888888; margin-top: 15px; padding-top: 15px; border-top: 1px solid #334455;">
+                        Source: BC Wildfire Service
+                        <br>
+                        Last updated: ${currentTime}
+                    </div>`;
+
+                wildfireDetails.innerHTML = contentHtml;
+                statusDot.style.backgroundColor = southernVIFires.length > 0 ? '#ff0000' : '#00ff00';
+
+            } catch (error) {
+                console.error('Detailed error:', error);
+                document.getElementById('wildfire-details').innerHTML = `
+                    <div style="color: #ff6b00;">
+                        Error loading wildfire data: ${error.message}<br>
+                        Please try again later.
+                    </div>`;
+            }
+        }
+
+        // Update initially and every 5 minutes
+        updateWildfireData();
+        setInterval(updateWildfireData, 300000);
+
+        // Add this new function to fetch flood warnings
+        async function updateFloodWarnings() {
+            try {
+                const corsProxy = 'https://corsproxy.io/?';
+                const floodURL = encodeURIComponent('https://www.env.gov.bc.ca/wsd/public_safety/flood/warning.xml');
+                const response = await fetch(corsProxy + floodURL);
+                const text = await response.text();
+                
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, 'text/xml');
+                const warnings = xmlDoc.getElementsByTagName('warning');
+                
+                const floodDetails = document.getElementById('flood-details');
+                const statusDot = document.querySelector('#flood-alert .status-dot');
+                
+                // Get current time for the timestamp
+                const currentTime = new Date().toLocaleString('en-US', {
+                    timeZone: 'America/Vancouver',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                });
+
+                if (warnings.length > 0) {
+                    // Filter for Vancouver Island warnings
+                    const islandWarnings = Array.from(warnings).filter(warning => {
+                        const region = warning.getElementsByTagName('region')[0]?.textContent;
+                        return region && region.toLowerCase().includes('vancouver island');
+                    });
+
+                    if (islandWarnings.length > 0) {
+                        floodDetails.innerHTML = `
+                            <div style="margin: 20px 0;">
+                                ${islandWarnings.map(warning => `
+                                    <div style="margin-bottom: 10px; padding: 8px; border-bottom: 1px solid #334455;">
+                                        <div style="font-weight: bold;">${warning.getElementsByTagName('region')[0]?.textContent}</div>
+                                        <div style="font-size: 0.9em; margin-top: 5px;">
+                                            ${warning.getElementsByTagName('description')[0]?.textContent}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                        statusDot.style.backgroundColor = '#ff0000';
+                    } else {
+                        floodDetails.innerHTML = `
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin: 20px 0;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="#00ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span style="color: #00ff00;">No flood warnings for Vancouver Island</span>
+                            </div>
+                        `;
+                        statusDot.style.backgroundColor = '#00ff00';
+                    }
+                } else {
+                    floodDetails.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin: 20px 0;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17L4 12" stroke="#00ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span style="color: #00ff00;">No active flood warnings in BC</span>
+                        </div>
+                    `;
+                    statusDot.style.backgroundColor = '#00ff00';
+                }
+
+                // Update timestamp
+                document.getElementById('flood-timestamp').textContent = currentTime;
+
+            } catch (error) {
+                console.error('Error fetching flood warnings:', error);
+                document.getElementById('flood-details').innerHTML = `
+                    <div style="color: #ff6b00; text-align: center;">
+                        Error loading flood warnings. Please try again later.
+                    </div>
+                `;
+                document.getElementById('flood-timestamp').textContent = 'Error loading data';
+            }
+        }
+
+        // Initial update
+        updateFloodWarnings();
+
+        // Update every 5 minutes
+        setInterval(updateFloodWarnings, 300000);
     </script>
 </body>
 </html>

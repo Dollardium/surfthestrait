@@ -602,7 +602,7 @@
     <script>
         async function fetchRoadWarnings() {
             try {
-                const corsProxy = 'https://corsproxy.io/?';
+                const corsProxy = 'https://corsproxy.io/?url=';
                 const rssUrl = encodeURIComponent('https://www.drivebc.ca/api/events/region/vanisland?format=rss');
                 const response = await fetch(corsProxy + rssUrl);
                 
@@ -831,7 +831,7 @@
         async function fetchBuoyData() {
             try {
                 console.log('Fetching buoy data...');
-                const corsProxy = 'https://corsproxy.io/?';
+                const corsProxy = 'https://corsproxy.io/?url=';
                 const buoyUrl = encodeURIComponent('https://www.ndbc.noaa.gov/data/realtime2/46087.txt');
                 const response = await fetch(corsProxy + buoyUrl);
                 
@@ -1288,7 +1288,7 @@
         async function getRecentEarthquakes() {
             try {
                 // USGS API for the last 7 days, all magnitudes
-                const corsProxy = 'https://corsproxy.io/?';
+                const corsProxy = 'https://corsproxy.io/?url=';
                 const earthquakeURL = encodeURIComponent(
                     'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson'
                 );
@@ -1330,7 +1330,7 @@
 
         async function checkTsunamiWarnings() {
             try {
-                const corsProxy = 'https://corsproxy.io/?';
+                const corsProxy = 'https://corsproxy.io/?url=';
                 // Using NOAA's Pacific Tsunami Warning Center feed
                 const tsunamiURL = encodeURIComponent('https://www.tsunami.gov/events/xml/PAAQAtom.xml');
                 const response = await fetch(corsProxy + tsunamiURL);
@@ -1502,7 +1502,7 @@
 
         async function updateWildfireData() {
             try {
-                const corsProxy = 'https://corsproxy.io/?';
+                const corsProxy = 'https://corsproxy.io/?url=';
                 const apiUrl = encodeURIComponent('https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=FIRE_STATUS%3D%27Active%27&outFields=FIRE_NUMBER,GEOGRAPHIC_DESCRIPTION,FIRE_STATUS,FIRE_CAUSE,RESPONSE_TYPE,IGNITION_DATE,FIRE_SIZE&returnGeometry=true&f=json');
                 
                 const response = await fetch(corsProxy + apiUrl);
@@ -1597,7 +1597,7 @@
         // Add this new function to fetch flood warnings
         async function updateFloodWarnings() {
             try {
-                const corsProxy = 'https://corsproxy.io/?';
+                const corsProxy = 'https://corsproxy.io/?url=';
                 const floodURL = encodeURIComponent('https://www.env.gov.bc.ca/wsd/public_safety/flood/warning.xml');
                 const response = await fetch(corsProxy + floodURL);
                 const text = await response.text();

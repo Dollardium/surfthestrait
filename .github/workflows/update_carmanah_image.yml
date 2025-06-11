@@ -1,0 +1,20 @@
+name: Update Carmanah Image
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+      - name: Download latest image
+        run: |
+          python fetch_carmanah_latest.py
+      # The image is ignored by git, so no commit is made

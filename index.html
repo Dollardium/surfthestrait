@@ -730,7 +730,7 @@
             const currentTime = new Intl.DateTimeFormat('en-CA', options).format(new Date());
             if (timeElement) {
                 timeElement.textContent = currentTime;
-                console.log('Time updated:', currentTime);
+                // console.log('Time updated:', currentTime);
             } else {
                 console.error('Time element not found');
             }
@@ -771,15 +771,12 @@
                 // Try each proxy until one works
                 for (const proxy of corsProxies) {
                     try {
-                        console.log(`Trying proxy: ${proxy}`);
                         response = await fetch(proxy + encodeURIComponent(url));
                         if (response.ok) {
                             text = await response.text();
-                            console.log('Successfully fetched data');
                             break;
                         }
                     } catch (e) {
-                        console.log(`Proxy ${proxy} failed:`, e);
                         continue;
                     }
                 }
@@ -803,7 +800,6 @@
                     },
                     tableSearch: () => {
                         const tables = doc.querySelectorAll('table');
-                        console.log('Found tables:', tables.length);
                         return tables[0]?.querySelector('tr:first-child td:first-child')?.textContent;
                     }
                 };
@@ -813,11 +809,9 @@
                     try {
                         windData = finder();
                         if (windData) {
-                            console.log(`Found data using ${method}:`, windData);
                             break;
                         }
                     } catch (e) {
-                        console.log(`${method} failed:`, e);
                     }
                 }
 
@@ -1109,7 +1103,7 @@
                 
                 // Get current date and time
                 const now = new Date();
-                console.log('Current time for weekly tides:', now); // Debug log
+                // console.log('Current time for weekly tides:', now); // Debug log
                 
                 // Get date 7 days from now
                 const oneWeekFromNow = new Date(now);
@@ -1120,7 +1114,7 @@
                     return tide.dateTime >= now && tide.dateTime < oneWeekFromNow;
                 });
                 
-                console.log('Filtered week tides:', weekTides.slice(0, 5)); // Debug log
+                // console.log('Filtered week tides:', weekTides.slice(0, 5)); // Debug log
                 
                 // Group tides by date
                 const tidesByDate = weekTides.reduce((acc, tide) => {

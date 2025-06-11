@@ -1705,6 +1705,51 @@
         // Update every 5 minutes
         setInterval(updateFloodWarnings, 300000);
 
+        // Fetch Race Rocks current data
+        async function fetchCurrentData() {
+            try {
+                const corsProxy = 'https://corsproxy.io/?url=';
+                const targetUrl = encodeURIComponent('https://www.dairiki.org/tides/daily.php/jua');
+                const response = await fetch(corsProxy + targetUrl);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+
+                const rows = Array.from(doc.querySelectorAll('tr'));
+                let speed = '--';
+                let direction = '--';
+
+                for (const row of rows) {
+                    const rowText = row.textContent || '';
+                    if (/kts?|knots?/i.test(rowText) || rowText.toLowerCase().includes('current')) {
+                        const speedMatch = rowText.match(/([0-9.]+)\s*(?:kts?|knots?)/i);
+                        if (speedMatch) {
+                            speed = speedMatch[1];
+                        }
+                        const dirMatch = rowText.match(/\b(Flood|Ebb|[NSEW]{1,3})\b/i);
+                        if (dirMatch) {
+                            direction = dirMatch[1];
+                        }
+                        break;
+                    }
+                }
+
+                document.getElementById('race-current-speed').textContent = speed !== '--' ? `${speed} kts` : '--';
+                document.getElementById('race-current-direction').textContent = direction;
+            } catch (err) {
+                console.error('Failed to fetch current data:', err);
+                document.getElementById('race-current-speed').textContent = '--';
+                document.getElementById('race-current-direction').textContent = '--';
+            }
+        }
+        fetchCurrentData();
+        setInterval(fetchCurrentData, 300000);
+
         // Fetch latest Carmanah camera image
         async function fetchCarmanahImage() {
             try {

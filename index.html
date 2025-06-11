@@ -1230,36 +1230,39 @@
                 const moonPhaseText = document.getElementById('moon-phase-text');
                 const moonPhasePath = document.getElementById('moon-phase');
                 
-                // Determine phase name and update SVG
-                let phaseName;
+                // Determine phase name and update SVG path
+                let phaseName, d, fill = '#E1E1E1';
+
                 if (phase < 0.0625 || phase >= 0.9375) {
                     phaseName = 'New Moon';
-                    // Update SVG for new moon
-                    moonPhasePath.setAttribute('d', 'M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z');
-                    moonPhasePath.setAttribute('fill', '#001122');
+                    d = 'M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z';
+                    fill = '#001122';
                 } else if (phase < 0.1875) {
                     phaseName = 'Waxing Crescent';
-                    // Add appropriate SVG path for waxing crescent
+                    d = 'M12 2A10 10 0 1 0 12 22A8 10 0 0 1 12 2Z';
                 } else if (phase < 0.3125) {
                     phaseName = 'First Quarter';
-                    // Add appropriate SVG path for first quarter
+                    d = 'M12 2A10 10 0 1 0 12 22V2Z';
                 } else if (phase < 0.4375) {
                     phaseName = 'Waxing Gibbous';
-                    // Add appropriate SVG path for waxing gibbous
+                    d = 'M12 2A10 10 0 1 0 12 22A2 10 0 0 1 12 2Z';
                 } else if (phase < 0.5625) {
                     phaseName = 'Full Moon';
-                    moonPhasePath.setAttribute('fill', '#E1E1E1');
+                    d = 'M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z';
                 } else if (phase < 0.6875) {
                     phaseName = 'Waning Gibbous';
-                    // Add appropriate SVG path for waning gibbous
+                    d = 'M12 2A2 10 0 0 0 12 22A10 10 0 1 1 12 2Z';
                 } else if (phase < 0.8125) {
                     phaseName = 'Last Quarter';
-                    // Add appropriate SVG path for last quarter
+                    d = 'M12 2V22A10 10 0 1 1 12 2Z';
                 } else {
                     phaseName = 'Waning Crescent';
-                    // Add appropriate SVG path for waning crescent
+                    d = 'M12 2A8 10 0 0 0 12 22A10 10 0 1 1 12 2Z';
                 }
-                
+
+                moonPhasePath.setAttribute('d', d);
+                moonPhasePath.setAttribute('fill', fill);
+
                 moonPhaseText.textContent = phaseName;
                 
             } catch (error) {

@@ -1613,8 +1613,11 @@
         async function updateFloodWarnings() {
             try {
                 const corsProxy = 'https://corsproxy.io/?url=';
-                const floodURL = encodeURIComponent('https://www.env.gov.bc.ca/wsd/public_safety/flood/warning.xml');
+                const floodURL = encodeURIComponent('https://www.env.gov.bc.ca/wsd/public_safety/flood/warnings.xml');
                 const response = await fetch(corsProxy + floodURL);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
                 const text = await response.text();
                 
                 const parser = new DOMParser();
@@ -1689,12 +1692,12 @@
                 console.error('Error fetching flood warnings:', error);
                 document.getElementById('flood-details').innerHTML = `
                     <div style="color: #ff6b00; text-align: center;">
-                        Error loading flood warnings. Please try again later.
+                        Flood warning feed unavailable.
                     </div>
                 `;
                 const timestampElErr = document.getElementById('flood-timestamp');
                 if (timestampElErr) {
-                    timestampElErr.textContent = 'Error loading data';
+                    timestampElErr.textContent = 'Unavailable';
                 }
             }
         }

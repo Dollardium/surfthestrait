@@ -22,7 +22,7 @@ def fetch_latest_image_url(base_url: str = BASE_URL) -> str:
         return datetime.strptime(ts, "%Y-%m-%d_%H-%M-%S")
 
     latest = max(matches, key=parse_timestamp)
-    return base_url + latest
+    return base_url.rstrip('/') + '/' + latest
 
 
 if __name__ == "__main__":

@@ -358,7 +358,7 @@
                      alt="Current Buoy Image">
             </div>
             <div class="image-box">
-                <img id="carmanah-image" src="" alt="Carmanah Camera Image">
+                <img id="carmanah-image" src="Pictures/carmanah_latest.jpg" alt="Carmanah Camera Image">
             </div>
         </div>
         <!-- Cards container -->
@@ -1705,26 +1705,6 @@
         // Update every 5 minutes
         setInterval(updateFloodWarnings, 300000);
 
-        // Fetch latest Carmanah camera image
-        async function fetchCarmanahImage() {
-            try {
-                const corsProxy = 'https://corsproxy.io/?url=';
-                const camUrl = encodeURIComponent('https://ccgsitecams.ca/sites/carmanah/camera_1/');
-                const resp = await fetch(corsProxy + camUrl);
-                const text = await resp.text();
-                const matches = [...text.matchAll(/Carmanah_1_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.jpg/g)];
-                if (matches.length) {
-                    const filenames = matches.map(m => m[0]).sort();
-                    const latest = filenames[filenames.length - 1];
-                    document.getElementById('carmanah-image').src =
-                        'https://ccgsitecams.ca/sites/carmanah/camera_1/' + latest;
-                }
-            } catch (err) {
-                console.error('Failed to fetch Carmanah image:', err);
-            }
-        }
-        fetchCarmanahImage();
-        setInterval(fetchCarmanahImage, 300000);
     </script>
 </body>
 </html>

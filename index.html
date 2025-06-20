@@ -472,6 +472,7 @@
                             </tbody>
                         </table>
                     </div>
+                        <div id="tideMessage" style="color:#ff6b00;text-align:center;margin-top:8px;display:none;"></div>
                 </div>
                 <!-- Currents Card -->
                 <div class="data-card">
@@ -1020,9 +1021,19 @@
         }
 
         // Fetch tide data from a live API
-        const TIDE_API_KEY = 'YOUR_API_KEY_HERE'; // Register at worldtides.info for a free key
+        // Provide your WorldTides API key. Either replace the placeholder below
+        // or define `window.TIDE_API_KEY` (e.g., from an environment variable)
+        const TIDE_API_KEY = window.TIDE_API_KEY || 'YOUR_API_KEY_HERE';
 
         async function loadTideData() {
+            if (!TIDE_API_KEY || TIDE_API_KEY === 'YOUR_API_KEY_HERE') {
+                const msg = document.getElementById('tideMessage');
+                if (msg) {
+                    msg.style.display = 'block';
+                    msg.textContent = 'Tide data requires a valid WorldTides API key.';
+                }
+                return [];
+            }
             try {
                 const lat = 48.55;  // Port Renfrew latitude
                 const lon = -124.42; // Port Renfrew longitude
